@@ -41,8 +41,8 @@ void TGraph<InElementType>::PrintAdjacencyList()
 	GLog->Log("Printing adjacency list...");
 	for (int32 i = 0; i < AdjacencyList.Num(); i++)
 	{
-		int32 A = static_cast<int32>AdjacencyList[i].Key;
-		int32 B = static_cast<int32>AdjacencyList[i].Value;
+		int32 A = static_cast<int32>(AdjacencyList[i].Key);
+		int32 B = static_cast<int32>(AdjacencyList[i].Value);
 		FString OutputStr = FString("(") + FString::FromInt(A) +" - "+FString::FromInt(B) +FString(")");
 		GLog->Log(OutputStr);
 	}
