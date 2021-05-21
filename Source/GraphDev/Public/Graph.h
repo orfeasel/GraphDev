@@ -27,7 +27,29 @@ public:
 	void PrintAdjacencyList();
 	void PrintMatrix();
 
+	int32 Order() const;
+	int32 Size() const;
+
 };
+
+template<typename InElementType>
+int32 TGraph<InElementType>::Size() const
+{
+	return AdjacencyList.Num();
+}
+
+template<typename InElementType>
+int32 TGraph<InElementType>::Order() const
+{
+	TSet<InElementType> Vertices;
+	for (int32 i = 0; i < AdjacencyList.Num(); i++)
+	{
+		Vertices.Add(AdjacencyList[i].Value);
+		Vertices.Add(AdjacencyList[i].Key);
+	}
+
+	return Vertices.Num();
+}
 
 template<typename InElementType>
 void TGraph<InElementType>::PrintMatrix()
