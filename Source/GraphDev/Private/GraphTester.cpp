@@ -43,13 +43,19 @@ void AGraphTester::Test()
 	GLog->Log("Order:"+FString::FromInt(Graph.Order()));
 	GLog->Log("Size:"+FString::FromInt(Graph.Size()));
 
-	int32 BFS_Start_Vertex = 1;
-	TArray<int32> BFSPath = Graph.BFS(BFS_Start_Vertex);
-	GLog->Log("--- BFS for " + FString::FromInt(BFS_Start_Vertex) + " ----");
+	int32 Traversal_Start_Vertex = 2;
+	TArray<int32> BFSPath = Graph.BFS(Traversal_Start_Vertex);
+	GLog->Log("--- BFS for " + FString::FromInt(Traversal_Start_Vertex) + " ----");
 	for (int32 i = 0; i < BFSPath.Num(); i++)
 	{
 		GLog->Log(FString::FromInt(BFSPath[i]));
 	}
 
+	TArray<int32> DFSPath = Graph.DFS(Traversal_Start_Vertex);
+	GLog->Log("--- DFS for " + FString::FromInt(Traversal_Start_Vertex) + " ----");
+	for (int32 i = 0; i < DFSPath.Num(); i++)
+	{
+		GLog->Log(FString::FromInt(DFSPath[i]));
+	}
 
 }

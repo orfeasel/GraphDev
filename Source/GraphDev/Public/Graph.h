@@ -31,10 +31,42 @@ public:
 
 	TArray<InElementType> BFS(const InElementType& Start) const;
 
+	TArray<InElementType> DFS(const InElementType& Start) const;
+
+
 	int32 Order() const;
 	int32 Size() const;
 
 };
+
+template<typename InElementType>
+TArray<InElementType> TGraph<InElementType>::DFS(const InElementType& Start) const
+{
+	TArray<InElementType> DFS_Path;
+
+	TSet<InElementType> VisitedVertices;
+	VisitedVertices.Add(Start);
+
+	TArray<InElementType> Stack;
+	Stack.Push(Start);
+
+	while (Stack.Num() > 0)
+	{
+		InElementType Top = Stack.Pop();
+		DFS_Path.Add(Top);
+		TArray<InElementType> AdjacentVertices = GetAdjacentVertices(Top);
+		for (int32 i = 0; i < AdjacentVertices.Num(); i++)
+		{
+			if (!VisitedVertices.Contains(AdjacentVertices[i]))
+			{
+				VisitedVertices.Add(AdjacentVertices[i]);
+				Stack.Push(AdjacentVertices[i]);
+			}
+		}
+	}
+
+	return DFS_Path;
+}
 
 template<typename InElementType>
 TArray<InElementType> TGraph<InElementType>::BFS(const InElementType& Start) const
