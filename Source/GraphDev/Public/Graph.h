@@ -45,7 +45,7 @@ TArray<InElementType> TGraph<InElementType>::BFS(const InElementType& Start) con
 	TSet<InElementType> VisitedVertices;
 	VisitedVertices.Add(Start);
 
-	//Que
+	//Keeping track of the elements we have in a queue in case we want to backtrack later on
 	TQueue<InElementType> Queue;
 	Queue.Enqueue(Start);
 	
@@ -73,14 +73,12 @@ TArray<InElementType> TGraph<InElementType>::BFS(const InElementType& Start) con
 template<typename InElementType>
 TArray<InElementType> TGraph<InElementType>::GetAdjacentVertices(const InElementType& Vertex) const
 {
-	//TArray<Edge> AdjacentEdges;
 	TArray<InElementType> AdjacentVertices;
 
 	for (int32 i = 0; i < AdjacencyList.Num(); i++)
 	{
 		if (AdjacencyList[i].Key == Vertex)
 		{
-			//AdjacentEdges.Add(AdjacencyList[i]);
 			AdjacentVertices.Add(AdjacencyList[i].Value);
 		}
 		else if (AdjacencyList[i].Value == Vertex) //for undirected graphs TODO: fix this
@@ -89,7 +87,6 @@ TArray<InElementType> TGraph<InElementType>::GetAdjacentVertices(const InElement
 		}
 	}
 
-	//return AdjacentEdges;
 	return AdjacentVertices;
 }
 
