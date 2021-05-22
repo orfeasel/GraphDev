@@ -34,8 +34,22 @@ void AGraphTester::Test()
 	Edges.Add(Edge(5,2));
 	Edges.Add(Edge(7,2));
 	Edges.Add(Edge(1,3));
+	Edges.Add(Edge(2,6));
+	Edges.Add(Edge(2,7));
+	Edges.Add(Edge(7,3));
+
 	TGraph<int32> Graph = TGraph<int32>(Edges);
 	Graph.PrintAdjacencyList();
 	GLog->Log("Order:"+FString::FromInt(Graph.Order()));
 	GLog->Log("Size:"+FString::FromInt(Graph.Size()));
+
+	int32 BFS_Start_Vertex = 1;
+	TArray<int32> BFSPath = Graph.BFS(BFS_Start_Vertex);
+	GLog->Log("--- BFS for " + FString::FromInt(BFS_Start_Vertex) + " ----");
+	for (int32 i = 0; i < BFSPath.Num(); i++)
+	{
+		GLog->Log(FString::FromInt(BFSPath[i]));
+	}
+
+
 }

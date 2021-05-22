@@ -27,10 +27,71 @@ public:
 	void PrintAdjacencyList();
 	void PrintMatrix();
 
+	TArray<InElementType> GetAdjacentVertices(const InElementType& Vertex) const;
+
+	TArray<InElementType> BFS(const InElementType& Start) const;
+
 	int32 Order() const;
 	int32 Size() const;
 
 };
+
+template<typename InElementType>
+TArray<InElementType> TGraph<InElementType>::BFS(const InElementType& Start) const
+{
+	TArray<InElementType> BFS_Path;
+
+	//Keeping track of visited elements
+	TSet<InElementType> VisitedVertices;
+	VisitedVertices.Add(Start);
+
+	//Que
+	TQueue<InElementType> Queue;
+	Queue.Enqueue(Start);
+	
+	while (!Queue.IsEmpty())
+	{
+		InElementType Front;
+		Queue.Dequeue(Front);
+		BFS_Path.Add(Front);
+
+		//Get adjacent vertices and add them in the queue if we haven't visited them yet
+		TArray<InElementType> AdjacentVertices = GetAdjacentVertices(Front);	
+		for (int32 i = 0; i < AdjacentVertices.Num(); i++)
+		{
+			if (!VisitedVertices.Contains(AdjacentVertices[i]))
+			{
+				VisitedVertices.Add(AdjacentVertices[i]);
+				Queue.Enqueue(AdjacentVertices[i]);
+			}
+		}
+	}
+
+	return BFS_Path;
+}
+
+template<typename InElementType>
+TArray<InElementType> TGraph<InElementType>::GetAdjacentVertices(const InElementType& Vertex) const
+{
+	//TArray<Edge> AdjacentEdges;
+	TArray<InElementType> AdjacentVertices;
+
+	for (int32 i = 0; i < AdjacencyList.Num(); i++)
+	{
+		if (AdjacencyList[i].Key == Vertex)
+		{
+			//AdjacentEdges.Add(AdjacencyList[i]);
+			AdjacentVertices.Add(AdjacencyList[i].Value);
+		}
+		else if (AdjacencyList[i].Value == Vertex) //for undirected graphs TODO: fix this
+		{
+			AdjacentVertices.Add(AdjacencyList[i].Key);
+		}
+	}
+
+	//return AdjacentEdges;
+	return AdjacentVertices;
+}
 
 template<typename InElementType>
 int32 TGraph<InElementType>::Size() const
