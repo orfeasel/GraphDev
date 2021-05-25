@@ -46,6 +46,8 @@ public:
 	int32 Order() const;
 	int32 Size() const;
 
+	FString (*/*const*/ ToStr)(InElementType);
+
 };
 
 template<typename InElementType>
@@ -225,9 +227,14 @@ void TGraph<InElementType>::PrintAdjacencyList()
 	GLog->Log("Printing adjacency list...");
 	for (int32 i = 0; i < AdjacencyLists.Num(); i++)
 	{
-		int32 A = static_cast<int32>(AdjacencyLists[i].Key);
+		/*int32 A = static_cast<int32>(AdjacencyLists[i].Key);
 		int32 B = static_cast<int32>(AdjacencyLists[i].Value);
 		FString OutputStr = FString("(") + FString::FromInt(A) +" - "+FString::FromInt(B) +FString(")");
+		GLog->Log(OutputStr);*/
+
+		FString A = ToStr(AdjacencyLists[i].Key);
+		FString B = ToStr(AdjacencyLists[i].Value);
+		FString OutputStr = FString("(") + A + " - "+ B +FString(")");
 		GLog->Log(OutputStr);
 	}
 }

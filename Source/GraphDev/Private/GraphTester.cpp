@@ -39,6 +39,10 @@ void AGraphTester::Test()
 	Edges.Add(Edge(7,3));
 
 	TGraph<int32> Graph = TGraph<int32>(Edges);
+	Graph.ToStr = [](int32 I)
+	{
+		return FString::FromInt(I);
+	};
 	Graph.PrintAdjacencyList();
 	GLog->Log("Order:"+FString::FromInt(Graph.Order()));
 	GLog->Log("Size:"+FString::FromInt(Graph.Size()));
