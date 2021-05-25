@@ -58,4 +58,5 @@ void AGraphTester::Test()
 		GLog->Log(FString::FromInt(DFSPath[i]));
 	}
 
+	Graph.PrintAdjacencyMatrix();
 }
