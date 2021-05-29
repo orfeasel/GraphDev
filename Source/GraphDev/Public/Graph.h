@@ -16,7 +16,7 @@ public:
 
 private:
 
-	TArray<Edge> AdjacencyLists;
+	TArray<Edge> Edges;
 
 	/**
 	 * Checks if there's a direct edge connecting A and B
@@ -42,6 +42,7 @@ public:
 	TArray<InElementType> DFS(const InElementType& Start) const;
 
 	TArray<InElementType> GetVertices() const;
+	TArray<Edge> GetEdges() const;
 
 	int32 Order() const;
 	int32 Size() const;
@@ -51,13 +52,19 @@ public:
 };
 
 template<typename InElementType>
+TArray<Edge> TGraph<InElementType>::GetEdges() const
+{
+	return Edges;
+}
+
+template<typename InElementType>
 bool TGraph<InElementType>::VerticesConnected(const InElementType& A, const InElementType& B) const
 {
 	bool result = false;
-	for (int32 i = 0; i < AdjacencyLists.Num(); i++)
+	for (int32 i = 0; i < Edges.Num(); i++)
 	{
 		//TODO: Directional / undirectional
-		Edge TestEdge = AdjacencyLists[i];
+		Edge TestEdge = Edges[i];
 		if (TestEdge.Key == A && TestEdge.Value == B)
 		{
 			return true;
@@ -75,10 +82,10 @@ TArray<InElementType> TGraph<InElementType>::GetVertices() const
 {
 	//TODO: Extend this for directed/undirected graphs
 	TSet<InElementType> Vertices;
-	for (int32 i = 0; i < AdjacencyLists.Num(); i++)
+	for (int32 i = 0; i < Edges.Num(); i++)
 	{
-		Vertices.Add(AdjacencyLists[i].Key);
-		Vertices.Add(AdjacencyLists[i].Value);
+		Vertices.Add(Edges[i].Key);
+		Vertices.Add(Edges[i].Value);
 	}
 	return Vertices.Array();
 }
@@ -151,15 +158,15 @@ TArray<InElementType> TGraph<InElementType>::GetAdjacentVertices(const InElement
 {
 	TArray<InElementType> AdjacentVertices;
 
-	for (int32 i = 0; i < AdjacencyLists.Num(); i++)
+	for (int32 i = 0; i < Edges.Num(); i++)
 	{
-		if (AdjacencyLists[i].Key == Vertex)
+		if (Edges[i].Key == Vertex)
 		{
-			AdjacentVertices.Add(AdjacencyLists[i].Value);
+			AdjacentVertices.Add(Edges[i].Value);
 		}
-		else if (AdjacencyLists[i].Value == Vertex) //for undirected graphs TODO: fix this
+		else if (Edges[i].Value == Vertex) //for undirected graphs TODO: fix this
 		{
-			AdjacentVertices.Add(AdjacencyLists[i].Key);
+			AdjacentVertices.Add(Edges[i].Key);
 		}
 	}
 
@@ -169,17 +176,17 @@ TArray<InElementType> TGraph<InElementType>::GetAdjacentVertices(const InElement
 template<typename InElementType>
 int32 TGraph<InElementType>::Size() const
 {
-	return AdjacencyLists.Num();
+	return Edges.Num();
 }
 
 template<typename InElementType>
 int32 TGraph<InElementType>::Order() const
 {
 	TSet<InElementType> Vertices;
-	for (int32 i = 0; i < AdjacencyLists.Num(); i++)
+	for (int32 i = 0; i < Edges.Num(); i++)
 	{
-		Vertices.Add(AdjacencyLists[i].Value);
-		Vertices.Add(AdjacencyLists[i].Key);
+		Vertices.Add(Edges[i].Value);
+		Vertices.Add(Edges[i].Key);
 	}
 
 	return Vertices.Num();
@@ -225,15 +232,15 @@ template<typename InElementType>
 void TGraph<InElementType>::PrintAdjacencyList()
 {
 	GLog->Log("Printing adjacency list...");
-	for (int32 i = 0; i < AdjacencyLists.Num(); i++)
+	for (int32 i = 0; i < Edges.Num(); i++)
 	{
 		/*int32 A = static_cast<int32>(AdjacencyLists[i].Key);
 		int32 B = static_cast<int32>(AdjacencyLists[i].Value);
 		FString OutputStr = FString("(") + FString::FromInt(A) +" - "+FString::FromInt(B) +FString(")");
 		GLog->Log(OutputStr);*/
 
-		FString A = ToStr(AdjacencyLists[i].Key);
-		FString B = ToStr(AdjacencyLists[i].Value);
+		FString A = ToStr(Edges[i].Key);
+		FString B = ToStr(Edges[i].Value);
 		FString OutputStr = FString("(") + A + " - "+ B +FString(")");
 		GLog->Log(OutputStr);
 	}
@@ -244,12 +251,12 @@ TGraph<InElementType>::TGraph(const TArray<Edge>& InEdges)
 {
 	for (int32 i = 0; i < InEdges.Num(); i++)
 	{
-		AdjacencyLists.Add(InEdges[i]);
+		Edges.Add(InEdges[i]);
 	}
 }
 
 template<typename InElementType>
 TGraph<InElementType>::TGraph()
 {
-	AdjacencyLists.Empty();
+	Edges.Empty();
 }
