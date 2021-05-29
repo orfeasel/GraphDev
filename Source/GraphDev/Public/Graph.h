@@ -52,7 +52,7 @@ public:
 };
 
 template<typename InElementType>
-TArray<Edge> TGraph<InElementType>::GetEdges() const
+TArray<TGraph::Edge> TGraph<InElementType>::GetEdges() const
 {
 	return Edges;
 }
@@ -203,15 +203,17 @@ void TGraph<InElementType>::PrintAdjacencyMatrix()
 	TArray<InElementType> Vertices = GetVertices();
 	for (int32 i = 0; i < Vertices.Num(); i++)
 	{
-		int32 Vertex = static_cast<int32>(Vertices[i]);
-		VerticesNamesStr.Append(FString::FromInt(Vertex) + FString(" "));
+		InElementType Vertex = Vertices[i];
+		FString ElementStr = ToStr(Vertex); //Make sure to bind ToStr callback
+		VerticesNamesStr.Append(ElementStr + FString(" "));
 	}
 	GLog->Log(VerticesNamesStr);
 
 	for (int32 i = 0; i < Vertices.Num(); i++)
 	{
-		int32 Vertex = static_cast<int32>(Vertices[i]);
-		FString RowStr = FString::FromInt(Vertex) + FString(" ");
+		InElementType Vertex = Vertices[i];
+		FString ElementStr = ToStr(Vertex);
+		FString RowStr = ElementStr + FString(" ");
 		for (int32 j = 0; j < Vertices.Num(); j++)
 		{
 			bool bResult = VerticesConnected(Vertices[i],Vertices[j]);
@@ -230,6 +232,7 @@ void TGraph<InElementType>::PrintAdjacencyLists()
 	GLog->Log("Printing adjacency list...");
 	for (int32 i = 0; i < Edges.Num(); i++)
 	{
+		//Make sure to bind ToStr callback
 		FString A = ToStr(Edges[i].Key);
 		FString B = ToStr(Edges[i].Value);
 		FString OutputStr = FString("(") + A + " - " + B + FString(")");

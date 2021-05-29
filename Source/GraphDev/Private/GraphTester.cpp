@@ -43,7 +43,7 @@ void AGraphTester::Test()
 	{
 		return FString::FromInt(I);
 	};
-	Graph.PrintAdjacencyList();
+	Graph.PrintAdjacencyLists();
 	GLog->Log("Order:"+FString::FromInt(Graph.Order()));
 	GLog->Log("Size:"+FString::FromInt(Graph.Size()));
 
