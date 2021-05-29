@@ -32,7 +32,7 @@ public:
 
 	TGraph(const TArray<Edge>& InEdges);
 
-	void PrintAdjacencyList();
+	void PrintAdjacencyLists();
 	void PrintAdjacencyMatrix();
 
 	TArray<InElementType> GetAdjacentVertices(const InElementType& Vertex) const;
@@ -47,7 +47,7 @@ public:
 	int32 Order() const;
 	int32 Size() const;
 
-	FString (*/*const*/ ToStr)(InElementType);
+	FString (*ToStr)(InElementType);
 
 };
 
@@ -222,26 +222,17 @@ void TGraph<InElementType>::PrintAdjacencyMatrix()
 		GLog->Log(RowStr);
 	}
 
-
-	
-	
-
 }
 
 template<typename InElementType>
-void TGraph<InElementType>::PrintAdjacencyList()
+void TGraph<InElementType>::PrintAdjacencyLists()
 {
 	GLog->Log("Printing adjacency list...");
 	for (int32 i = 0; i < Edges.Num(); i++)
 	{
-		/*int32 A = static_cast<int32>(AdjacencyLists[i].Key);
-		int32 B = static_cast<int32>(AdjacencyLists[i].Value);
-		FString OutputStr = FString("(") + FString::FromInt(A) +" - "+FString::FromInt(B) +FString(")");
-		GLog->Log(OutputStr);*/
-
 		FString A = ToStr(Edges[i].Key);
 		FString B = ToStr(Edges[i].Value);
-		FString OutputStr = FString("(") + A + " - "+ B +FString(")");
+		FString OutputStr = FString("(") + A + " - " + B + FString(")");
 		GLog->Log(OutputStr);
 	}
 }
